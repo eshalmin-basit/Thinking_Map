@@ -71,7 +71,7 @@ export default function AIThinkingAssistant() {
         </Card>
 
         {/* Error Handling */}
-        {error && <div className="bg-red-500 p-4 mt-8">{error}</div>}
+        {error && <div className="bg-white p-4 mt-8">{error}</div>}
 
         {/* Display Generated GPT-4 Content */}
         {generatedContent && (

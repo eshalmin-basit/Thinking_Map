@@ -33,8 +33,8 @@ export default function RootLayout({
           <header className="p-4 bg-gray-800 text-white">
             <div className="container mx-auto flex justify-between items-center">
               <h1 className="text-2xl font-bold">
-                <span className="text-blue-400">Intelli</span>
-                <span className="text-purple-400">Think</span>
+                <span className="text-[#ED3A79]">Intelli</span>
+                <span className="text-[#ED3A79]">Think</span>
               </h1>
               <nav>
                 <SignedIn>
@@ -52,7 +52,7 @@ export default function RootLayout({
           </header>
 
           {/* Main content */}
-          <main className="container mx-auto mt-8">
+          <main className="container mx-auto mt-8 bg-white">
             {children}
           </main>
 
