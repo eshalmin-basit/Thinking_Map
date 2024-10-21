@@ -1,24 +1,39 @@
 import { createClient } from "@/utils/supabase/server";
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  // The `/auth/callback` route is required for the server-side auth flow implemented
-  // by the SSR package. It exchanges an auth code for the user's session.
-  // https://supabase.com/docs/guides/auth/server-side/nextjs
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString();
 
+  // Define a list of allowed redirects to avoid open redirect vulnerabilities
+  const allowedRedirects = [`${origin}/dashboard`, `${origin}/protected`];
+
   if (code) {
+    // Create a Supabase client instance
     const supabase = createClient();
-    await supabase.auth.exchangeCodeForSession(code);
+
+    try {
+      // Exchange the OAuth code for a session
+      await supabase.auth.exchangeCodeForSession(code);
+
+      // Create a route handler client for consistency
+      const supabaseRoute = createRouteHandlerClient({ cookies });
+      await supabaseRoute.auth.exchangeCodeForSession(code);
+    } catch (error) {
+      console.error('Error exchanging code for session:', error);
+      return NextResponse.redirect(`${origin}/error`); // Redirect to an error page
+    }
   }
 
-  if (redirectTo) {
+  // Check if redirectTo is allowed
+  if (redirectTo && allowedRedirects.includes(`${origin}${redirectTo}`)) {
     return NextResponse.redirect(`${origin}${redirectTo}`);
   }
 
-  // URL to redirect to after sign up process completes
+  // Default redirect to the protected route if no valid redirectTo is provided
   return NextResponse.redirect(`${origin}/protected`);
 }

@@ -1,72 +1,70 @@
-import DeployButton from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import HeaderAuth from "@/components/header-auth";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
-import Link from "next/link";
-import "./globals.css";
+import './globals.css'
+import type { Metadata } from 'next'
+import { Montserrat } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+// Font configuration
+const montserrat = Montserrat({ subsets: ['latin'] })
 
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
-};
+// Metadata configuration
+export const metadata: Metadata = {
+  title: 'Intellithink: AI-Powered Problem Structuring',
+  description: 'Enhance your problem-solving skills with AI-powered thinking methodologies',
+}
 
+// Main RootLayout function
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
-              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-                  <div className="flex gap-5 items-center font-semibold">
-                    <Link href={"/"}>Next.js Supabase Starter</Link>
-                    <div className="flex items-center gap-2">
-                      <DeployButton />
-                    </div>
-                  </div>
-                  {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
-                </div>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={montserrat.className}>
+          {/* Header or Navigation Bar */}
+          <header className="p-4 bg-gray-800 text-white">
+            <div className="container mx-auto flex justify-between items-center">
+              <h1 className="text-2xl font-bold">
+                <span className="text-blue-400">Intelli</span>
+                <span className="text-purple-400">Think</span>
+              </h1>
+              <nav>
+                <SignedIn>
+                  <UserButton afterSignOutUrl="/" />
+                </SignedIn>
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                </SignedOut>
               </nav>
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
-                {children}
-              </div>
-
-              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-                <p>
-                  Powered by{" "}
-                  <a
-                    href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-                    target="_blank"
-                    className="font-bold hover:underline"
-                    rel="noreferrer"
-                  >
-                    Supabase
-                  </a>
-                </p>
-                <ThemeSwitcher />
-              </footer>
             </div>
+          </header>
+
+          {/* Main content */}
+          <main className="container mx-auto mt-8">
+            {children}
           </main>
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+
+          {/* Footer */}
+          <footer className="mt-8 p-4 bg-gray-800 text-white text-center">
+            <p>&copy;  Intellithink@igebra. All rights reserved.</p>
+          </footer>
+
+          {/* Vercel Analytics */}
+          <Analytics />
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }

@@ -1,0 +1,20 @@
+.rd3t-link {
+    stroke: #6366f1;
+    stroke-width: 2;
+  }
+  
+  .rd3t-label__title {
+    fill: white;
+    font-weight: bold;
+  }
+  
+  .rd3t-node circle {
+    fill: #4f46e5;
+    stroke: #818cf8;
+    stroke-width: 2;
+  }
+  
+  .rd3t-tree-container {
+    background-color: rgba(17, 24, 39, 0.7);
+    border-radius: 0.5rem;
+  }
