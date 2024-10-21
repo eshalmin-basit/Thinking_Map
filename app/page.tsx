@@ -23,17 +23,17 @@ export default function Home() {
   }
 
   return (
-    <div className={`flex flex-col min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white ${montserrat.className}`}>
+    <div className={`flex flex-col min-h-screen bg-white text-black `}>
       <header className="p-4 flex justify-between items-center">
         <div className="text-2xl font-bold">
-          <span className="text-blue-400">Intelli</span>
-          <span className="text-purple-400">Think</span>
+          <span className="text-[#ED3A79]">Intelli</span>
+          <span className="text-[#ED3A79]">Think</span>
         </div>
         <nav>
           <Link href="/sign-up" className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2">
             Sign Up
           </Link>
-          <Link href="/sign-in" className="bg-transparent hover:bg-purple-700 text-white font-bold py-2 px-4 rounded border border-purple-500 hover:border-transparent">
+          <Link href="/sign-in" className="bg-transparent hover:bg-purple-700 text-black font-bold py-2 px-4 rounded border border-purple-500 hover:border-transparent">
             Sign In
           </Link>
         </nav>
@@ -50,7 +50,7 @@ export default function Home() {
           <Link href="/sign-up" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full text-lg mr-4">
             Get Started
           </Link>
-          <Link href="/sign-up" className="bg-transparent hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full text-lg border border-purple-500 hover:border-transparent">
+          <Link href="/sign-up" className="bg-transparent hover:bg-purple-700 text-black font-bold py-3 px-6 rounded-full text-lg border border-purple-500 hover:border-transparent">
             Sign Up
           </Link>
         </div>
